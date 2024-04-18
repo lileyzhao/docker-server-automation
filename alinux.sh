@@ -63,10 +63,6 @@ docker rmi $(docker images -q)
 echo -e "${GREEN}正在删除所有Docker卷...${NC}"
 docker volume rm $(docker volume ls -q)
 
-# 删除所有Docker网络（不包括默认网络）
-echo -e "${GREEN}正在删除所有非默认Docker网络...${NC}"
-docker network ls | grep -v "NETWORK ID\|bridge\|host\|none" | awk '{print \$1}' | xargs docker network rm
-
 echo -e "${GREEN}正在卸载Docker及相关内容...${NC}"
 yum remove -y docker \
            docker-ce \
