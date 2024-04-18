@@ -45,8 +45,33 @@ echo -e "${GREEN}使用的私有仓储密码: $repo_pass${NC}"
 echo -e "${GREEN}检查更新的间隔（秒）: $interval${NC}"
 
 # 1. 移除docker安装残留
-echo -e "${GREEN}移除Docker安装残留...${NC}"
+echo -e "${GREEN}准备移除Docker安装残留...${NC}"
+
+# 停止所有运行中的容器
+echo -e "${GREEN}正在停止所有Docker容器...${NC}"
+docker stop $(docker ps -aq)
+
+# 删除所有容器
+echo -e "${GREEN}正在删除所有Docker容器...${NC}"
+docker rm $(docker ps -aq)
+
+# 删除所有Docker镜像
+echo -e "${GREEN}正在删除所有Docker镜像...${NC}"
+docker rmi $(docker images -q)
+
+# 删除所有Docker卷
+echo -e "${GREEN}正在删除所有Docker卷...${NC}"
+docker volume rm $(docker volume ls -q)
+
+# 删除所有Docker网络（不包括默认网络）
+echo -e "${GREEN}正在删除所有非默认Docker网络...${NC}"
+docker network ls | grep -v "NETWORK ID\|bridge\|host\|none" | awk '{print \$1}' | xargs docker network rm
+
+echo -e "${GREEN}正在卸载Docker及相关内容...${NC}"
 yum remove -y docker \
+           docker-ce \
+           docker-ce-cli \
+           containerd.io \
            docker-client \
            docker-client-latest \
            docker-common \
@@ -54,6 +79,11 @@ yum remove -y docker \
            docker-latest-logrotate \
            docker-logrotate \
            docker-engine
+
+yum autoremove -y
+
+rm -rf /var/lib/docker
+rm -rf /var/run/docker
 
 # 2. 安装必要程序
 echo -e "${GREEN}安装必要程序...${NC}"

@@ -9,3 +9,6 @@ wget -O - https://raw.githubusercontent.com/lileyzhao/docker-server-automation/m
 参数：
 
 ./script_name.sh -u your_repo_user -p your_repo_pass -i your_interval
+
+
+wget -O - https://raw.githubusercontent.com/lileyzhao/docker-server-automation/main/alinux.sh | bash -s -- -u your_repo_user -p your_repo_pass -i 55
