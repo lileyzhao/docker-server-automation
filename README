@@ -1,0 +1,11 @@
+
+调用方式：
+
+curl -sSL https://raw.githubusercontent.com/lileyzhao/docker-server-automation/main/alinux.sh | bash
+
+wget -O - https://raw.githubusercontent.com/lileyzhao/docker-server-automation/main/alinux.sh | bash
+
+
+参数：
+
+./script_name.sh -u your_repo_user -p your_repo_pass -i your_interval
